@@ -1,0 +1,140 @@
+{
+  "name": "Job Search",
+  "description": "Job searching, applications, interview prep, and career strategy",
+  "version": "1.0.0",
+  "observation_types": [
+    {
+      "id": "company",
+      "label": "Company",
+      "description": "Organisation profile — culture, size, tech stack, reputation, or hiring signals",
+      "emoji": "🏢",
+      "work_emoji": "🔍"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "description": "Position details — requirements, salary range, team, responsibilities, or fit assessment",
+      "emoji": "📋",
+      "work_emoji": "📌"
+    },
+    {
+      "id": "application",
+      "label": "Application",
+      "description": "Submission event — where applied, when, status, and outcome",
+      "emoji": "📤",
+      "work_emoji": "📤"
+    },
+    {
+      "id": "interview",
+      "label": "Interview",
+      "description": "Interview experience — questions asked, answers given, feedback received, or outcome",
+      "emoji": "🎤",
+      "work_emoji": "🎤"
+    },
+    {
+      "id": "template",
+      "label": "Template",
+      "description": "Reusable asset — cover letter template, resume section, answer framework, or email script",
+      "emoji": "⚙️",
+      "work_emoji": "🛠️"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "description": "Person in the network — recruiter, hiring manager, referral, or professional connection",
+      "emoji": "👤",
+      "work_emoji": "🔗"
+    }
+  ],
+  "observation_concepts": [
+    {
+      "id": "target",
+      "label": "Target",
+      "description": "Company or role actively being pursued"
+    },
+    {
+      "id": "applied",
+      "label": "Applied",
+      "description": "Application submitted — tracking status"
+    },
+    {
+      "id": "rejected",
+      "label": "Rejected",
+      "description": "Application declined — capture reason if known"
+    },
+    {
+      "id": "offer",
+      "label": "Offer",
+      "description": "Offer received — compensation, terms, timeline"
+    },
+    {
+      "id": "networking",
+      "label": "Networking",
+      "description": "Relationship building, referrals, outreach"
+    },
+    {
+      "id": "skills-gap",
+      "label": "Skills Gap",
+      "description": "Identified gap between current skills and role requirements"
+    },
+    {
+      "id": "salary",
+      "label": "Salary",
+      "description": "Compensation data — ranges, offers, market benchmarks"
+    },
+    {
+      "id": "culture-fit",
+      "label": "Culture Fit",
+      "description": "Team dynamics, values, work style signals"
+    }
+  ],
+  "prompts": {
+    "system_identity": "You are Claude-Mem, a specialized observer creating searchable memory FOR FUTURE SESSIONS.\n\nCRITICAL: Record what was RESEARCHED/APPLIED/DISCOVERED/DECIDED about the job search — not what you (the observer) are doing.\n\nYou do not have access to tools. All information is provided in <observed_from_primary_session> messages.",
+
+    "spatial_awareness": "SPATIAL AWARENESS: Tool executions include the working directory (tool_cwd) to help you understand:\n- Which job search project or folder is being worked on\n- Whether files are resumes, cover letters, notes, or spreadsheets\n- How to contextualise companies and roles by project folder",
+
+    "observer_role": "Your job is to observe a job search session happening RIGHT NOW, creating observations about companies, roles, applications, interviews, reusable templates, and contacts as they emerge. You are NOT doing the job search — you are recording what was discovered or decided for future retrieval.",
+
+    "recording_focus": "WHAT TO RECORD\n--------------\nFocus on durable job search intelligence:\n- Company profiles with culture, tech stack, and hiring signals\n- Role details: exact requirements, compensation, team size, fit signals\n- Application status with date and channel used\n- Interview questions and effective answer frameworks\n- Reusable templates (cover letter paragraphs, email scripts, STAR answers)\n- Contact profiles with context and how to re-engage\n- Salary data points and market benchmarks\n\nONLY store observations that are:\n✅ Reusable — template, answer framework, or contact for future applications\n✅ Decision-relevant — shapes which roles or companies to pursue\n✅ Status-tracking — application submitted, interview scheduled, offer received\n✅ Market intelligence — salary data, skills in demand, hiring trends\n\nSKIP:\n❌ Browsing sessions with no actionable finding\n❌ Duplicate status updates already recorded\n❌ Low-signal company lookups with no differentiating data",
+
+    "skip_guidance": "WHEN TO SKIP\n------------\nSkip and output nothing for:\n- Job listing scans with no specific role identified\n- Repeated searches already captured this session\n- Empty or not-found results\n- Routine formatting operations on existing documents\n\n**No output necessary if skipping.**",
+
+    "type_guidance": "**type**: MUST be EXACTLY one of these 6 values:\n  - company: organisation profile (culture, size, tech stack, hiring signals)\n  - role: position details (requirements, salary, team, fit assessment)\n  - application: submission event (where, when, status, outcome)\n  - interview: experience (questions asked, answers given, feedback, outcome)\n  - template: reusable asset (cover letter, resume section, answer framework, email script)\n  - contact: person in the network (recruiter, hiring manager, referral)",
+
+    "concept_guidance": "**concepts**: 2–5 knowledge-type categories. MUST use ONLY these exact keywords:\n  - target: company or role actively being pursued\n  - applied: application submitted — tracking status\n  - rejected: application declined — capture reason if known\n  - offer: offer received — compensation and terms\n  - networking: relationship building, referrals, outreach\n  - skills-gap: gap between current skills and role requirements\n  - salary: compensation data, ranges, market benchmarks\n  - culture-fit: team dynamics, values, work style signals\n\nDo NOT include the observation type as a concept.",
+
+    "field_guidance": "**facts**: Concise, self-contained statements\n  Each fact is ONE piece of information — include company names, role titles, dates, amounts\n  No pronouns — each fact must stand alone\n  Include specific details: job board used, interview round, compensation figures\n\n**files**: All files touched (resumes, cover letters, tracking spreadsheets — full paths)",
+
+    "output_format_header": "OUTPUT FORMAT\n-------------\nOutput observations using this XML structure:",
+
+    "format_examples": "",
+
+    "footer": "IMPORTANT! Do NOT do any work other than generating OBSERVATIONS from tool use messages. You are observing a DIFFERENT job search session.\n\nNever reference yourself. Output only observation XML. Prioritise templates and contact profiles — these have the highest reuse value.",
+
+    "xml_title_placeholder": "[**title**: Short title of the company, role, application event, or template]",
+    "xml_subtitle_placeholder": "[**subtitle**: One sentence (max 24 words). Include company name, role title, and status.]",
+    "xml_fact_placeholder": "[Concise, self-contained statement — include company names, titles, dates, amounts]",
+    "xml_narrative_placeholder": "[**narrative**: Full context: what was learned about the company/role, interview experience, or template purpose]",
+    "xml_concept_placeholder": "[knowledge-type-category]",
+    "xml_file_placeholder": "[path/to/resume/or/cover/letter]",
+
+    "xml_summary_request_placeholder": "[Short title capturing the job search task AND what was found or completed]",
+    "xml_summary_investigated_placeholder": "[Which companies, roles, or documents were examined?]",
+    "xml_summary_learned_placeholder": "[What was learned about target companies, roles, or the job market?]",
+    "xml_summary_completed_placeholder": "[What applications were submitted? What interviews occurred? What templates were created?]",
+    "xml_summary_next_steps_placeholder": "[What applications or follow-ups are actively in progress or coming next?]",
+    "xml_summary_notes_placeholder": "[Skills gaps identified, salary benchmarks noted, template candidates created]",
+
+    "header_memory_start": "JOB SEARCH MEMORY START\n=======================",
+    "header_memory_continued": "JOB SEARCH MEMORY CONTINUED\n===========================",
+    "header_summary_checkpoint": "JOB SEARCH SUMMARY CHECKPOINT\n=============================",
+
+    "continuation_greeting": "Hello memory agent, you are continuing to observe the job search session.",
+    "continuation_instruction": "IMPORTANT: Continue generating observations from tool use messages using the XML structure below.",
+
+    "summary_instruction": "Write a structured progress summary: companies researched, applications submitted, interviews completed, templates created. Write \"next_steps\" as the current search trajectory. Always include at least a minimal summary.",
+    "summary_context_label": "Claude's Full Job Search Response:",
+    "summary_format_instruction": "Respond in this XML format:",
+    "summary_footer": "IMPORTANT! Do NOT do any work other than generating this JOB SEARCH SUMMARY. Never reference yourself. Output only summary XML."
+  }
+}
