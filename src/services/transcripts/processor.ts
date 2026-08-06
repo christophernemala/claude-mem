@@ -17,6 +17,7 @@ interface SessionState {
   lastUserMessage?: string;
   lastAssistantMessage?: string;
   pendingTools: Map<string, { name?: string; input?: unknown }>;
+  [key: string]: unknown;
 }
 
 interface PendingTool {

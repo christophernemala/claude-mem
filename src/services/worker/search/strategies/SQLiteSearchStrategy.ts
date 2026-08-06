@@ -20,6 +20,7 @@ import {
   UserPromptSearchResult
 } from '../types.js';
 import { SessionSearch } from '../../../sqlite/SessionSearch.js';
+import type { ObservationRow } from '../../../sqlite/types.js';
 import { logger } from '../../../../utils/logger.js';
 
 export class SQLiteSearchStrategy extends BaseSearchStrategy implements SearchStrategy {
@@ -68,7 +69,7 @@ export class SQLiteSearchStrategy extends BaseSearchStrategy implements SearchSt
       if (searchObservations) {
         const obsOptions = {
           ...baseOptions,
-          type: obsType,
+          type: obsType as ObservationRow['type'] | ObservationRow['type'][] | undefined,
           concepts,
           files
         };

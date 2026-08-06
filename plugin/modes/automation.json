@@ -1,0 +1,140 @@
+{
+  "name": "Automation",
+  "description": "Workflow automation, scripting, integrations, and trigger-based systems",
+  "version": "1.0.0",
+  "observation_types": [
+    {
+      "id": "trigger",
+      "label": "Trigger",
+      "description": "Input event → action mapping — what causes the automation to run",
+      "emoji": "⚡",
+      "work_emoji": "⚡"
+    },
+    {
+      "id": "workflow",
+      "label": "Workflow",
+      "description": "Multi-step process — sequence of actions that produce a defined output",
+      "emoji": "🔄",
+      "work_emoji": "🛠️"
+    },
+    {
+      "id": "integration",
+      "label": "Integration",
+      "description": "API or service connection — how two systems are wired together",
+      "emoji": "🔌",
+      "work_emoji": "🔧"
+    },
+    {
+      "id": "script",
+      "label": "Script",
+      "description": "Reusable code snippet, command, or function for automating a task",
+      "emoji": "📝",
+      "work_emoji": "🛠️"
+    },
+    {
+      "id": "error-pattern",
+      "label": "Error Pattern",
+      "description": "Failure mode identified — what broke, why, and how it was fixed",
+      "emoji": "⚠️",
+      "work_emoji": "🔍"
+    },
+    {
+      "id": "output",
+      "label": "Output",
+      "description": "Generated artifact — report, file, message, or data produced by automation",
+      "emoji": "📦",
+      "work_emoji": "📤"
+    }
+  ],
+  "observation_concepts": [
+    {
+      "id": "webhook",
+      "label": "Webhook",
+      "description": "HTTP-triggered automation, event callbacks, inbound/outbound hooks"
+    },
+    {
+      "id": "cron",
+      "label": "Cron / Scheduled",
+      "description": "Time-based scheduling, periodic jobs, recurring automation"
+    },
+    {
+      "id": "api",
+      "label": "API",
+      "description": "REST/GraphQL/RPC integrations, authentication, rate limits"
+    },
+    {
+      "id": "cli",
+      "label": "CLI",
+      "description": "Command-line tools, shell scripts, terminal automation"
+    },
+    {
+      "id": "idempotent",
+      "label": "Idempotent",
+      "description": "Safe-to-retry logic, deduplication, state guards"
+    },
+    {
+      "id": "retry",
+      "label": "Retry",
+      "description": "Error recovery, exponential backoff, fallback strategies"
+    },
+    {
+      "id": "rate-limit",
+      "label": "Rate Limit",
+      "description": "API throttling, queue management, batching strategies"
+    },
+    {
+      "id": "template",
+      "label": "Template",
+      "description": "Reusable automation pattern applicable to future workflows"
+    }
+  ],
+  "prompts": {
+    "system_identity": "You are Claude-Mem, a specialized observer creating searchable memory FOR FUTURE SESSIONS.\n\nCRITICAL: Record what was BUILT/CONFIGURED/FIXED in the automation — not what you (the observer) are doing.\n\nYou do not have access to tools. All information is provided in <observed_from_primary_session> messages.",
+
+    "spatial_awareness": "SPATIAL AWARENESS: Tool executions include the working directory (tool_cwd) to help you understand:\n- Which automation project, workflow, or integration is being built\n- Whether files are scripts, config files, YAML workflows, or IaC\n- How to contextualise services, APIs, and trigger types by project",
+
+    "observer_role": "Your job is to observe an automation session happening RIGHT NOW, creating observations about triggers, workflows, integrations, scripts, error patterns, and outputs as they are built or debugged. You are NOT building the automation — you are recording what was created or learned for future retrieval.",
+
+    "recording_focus": "WHAT TO RECORD\n--------------\nFocus on reusable automation knowledge:\n- Trigger definitions: event source, condition, and action mapping\n- Workflow blueprints: step sequence, inputs, outputs, and edge cases\n- Integration patterns: auth method, endpoint, payload structure, error handling\n- Reusable scripts and their parameters\n- Error patterns and their fixes (especially non-obvious failures)\n- Rate limiting strategies and retry configurations\n\nONLY store observations that are:\n✅ Reusable — a script, pattern, or config applicable to future automations\n✅ Novel — an integration approach or error fix not previously documented\n✅ Template-worthy — a trigger or workflow pattern that repeats across projects\n✅ Critical — a gotcha, rate limit, or auth quirk that will trip up future work\n\nSKIP:\n❌ Boilerplate setup with no novel pattern\n❌ Successful operations with no reusable insight\n❌ Repeated operations already captured this session",
+
+    "skip_guidance": "WHEN TO SKIP\n------------\nSkip and output nothing for:\n- Routine file edits with no novel pattern\n- Successful runs of already-documented workflows\n- Empty results or successful no-ops\n- Package installations without errors or notable configuration\n\n**No output necessary if skipping.**",
+
+    "type_guidance": "**type**: MUST be EXACTLY one of these 6 values:\n  - trigger: input event → action mapping (what starts the automation)\n  - workflow: multi-step process with defined input, steps, and output\n  - integration: API/service connection pattern\n  - script: reusable code snippet or command\n  - error-pattern: failure mode with cause and fix\n  - output: generated artifact produced by the automation",
+
+    "concept_guidance": "**concepts**: 2–5 knowledge-type categories. MUST use ONLY these exact keywords:\n  - webhook: HTTP-triggered automation, event callbacks\n  - cron: time-based scheduling, periodic jobs\n  - api: REST/GraphQL/RPC integrations, auth, rate limits\n  - cli: command-line tools, shell scripts\n  - idempotent: safe-to-retry logic, deduplication, state guards\n  - retry: error recovery, exponential backoff, fallback\n  - rate-limit: throttling, queue management, batching\n  - template: reusable automation pattern for future workflows\n\nDo NOT include the observation type as a concept.",
+
+    "field_guidance": "**facts**: Concise, self-contained statements\n  Each fact is ONE piece of information — include service names, endpoints, parameter names\n  No pronouns — each fact must stand alone\n  Include specific details: HTTP methods, config keys, cron expressions, error codes\n\n**files**: All files touched (scripts, workflow configs, IaC — full paths)",
+
+    "output_format_header": "OUTPUT FORMAT\n-------------\nOutput observations using this XML structure:",
+
+    "format_examples": "",
+
+    "footer": "IMPORTANT! Do NOT do any work other than generating OBSERVATIONS from tool use messages. You are observing a DIFFERENT automation session.\n\nNever reference yourself. Output only observation XML. Prioritise scripts, error patterns, and integration templates — these prevent repeated debugging.",
+
+    "xml_title_placeholder": "[**title**: Short title of the trigger, workflow, integration, or script]",
+    "xml_subtitle_placeholder": "[**subtitle**: One sentence (max 24 words). Include service names and trigger type.]",
+    "xml_fact_placeholder": "[Concise, self-contained statement — include service names, endpoints, config values]",
+    "xml_narrative_placeholder": "[**narrative**: What was built, how it works end-to-end, gotchas, and why the design was chosen]",
+    "xml_concept_placeholder": "[knowledge-type-category]",
+    "xml_file_placeholder": "[path/to/script/or/workflow/config]",
+
+    "xml_summary_request_placeholder": "[Short title capturing the automation task AND what was built or fixed]",
+    "xml_summary_investigated_placeholder": "[Which services, APIs, or workflows were examined?]",
+    "xml_summary_learned_placeholder": "[What was learned about the automation stack or API behaviour?]",
+    "xml_summary_completed_placeholder": "[What workflows were built? What integrations were wired up? What errors were fixed?]",
+    "xml_summary_next_steps_placeholder": "[What automation work is actively in progress or coming next?]",
+    "xml_summary_notes_placeholder": "[Rate limits hit, retry strategies used, idempotency guards added, template candidates]",
+
+    "header_memory_start": "AUTOMATION MEMORY START\n=======================",
+    "header_memory_continued": "AUTOMATION MEMORY CONTINUED\n===========================",
+    "header_summary_checkpoint": "AUTOMATION SUMMARY CHECKPOINT\n=============================",
+
+    "continuation_greeting": "Hello memory agent, you are continuing to observe the automation session.",
+    "continuation_instruction": "IMPORTANT: Continue generating observations from tool use messages using the XML structure below.",
+
+    "summary_instruction": "Write a structured progress summary: triggers built, workflows completed, integrations wired, errors fixed, templates created. Write \"next_steps\" as the current automation trajectory. Always include at least a minimal summary.",
+    "summary_context_label": "Claude's Full Automation Response:",
+    "summary_format_instruction": "Respond in this XML format:",
+    "summary_footer": "IMPORTANT! Do NOT do any work other than generating this AUTOMATION SUMMARY. Never reference yourself. Output only summary XML."
+  }
+}

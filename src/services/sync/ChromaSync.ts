@@ -264,6 +264,7 @@ export class ChromaSync {
     const chromaMcp = ChromaMcpManager.getInstance();
 
     // Add in batches
+    let failedBatches = 0;
     for (let i = 0; i < documents.length; i += this.BATCH_SIZE) {
       const batch = documents.slice(i, i + this.BATCH_SIZE);
 
@@ -283,12 +284,23 @@ export class ChromaSync {
           metadatas: cleanMetadatas
         });
       } catch (error) {
+        failedBatches++;
         logger.error('CHROMA_SYNC', 'Batch add failed, continuing with remaining batches', {
           collection: this.collectionName,
           batchStart: i,
           batchSize: batch.length
         }, error as Error);
       }
+    }
+
+    if (failedBatches > 0) {
+      const totalBatches = Math.ceil(documents.length / this.BATCH_SIZE);
+      logger.warn('CHROMA_SYNC', `Sync incomplete: ${failedBatches}/${totalBatches} batches failed`, {
+        collection: this.collectionName,
+        failedBatches,
+        totalBatches,
+        documentsAffected: documents.length
+      });
     }
 
     logger.debug('CHROMA_SYNC', 'Documents added', {

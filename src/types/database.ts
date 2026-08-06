@@ -59,7 +59,7 @@ export interface SdkSessionRecord {
 }
 
 /**
- * Observation database record
+ * Observation database record — matches the full post-migration observations table schema
  */
 export interface ObservationRecord {
   id: number;
@@ -67,17 +67,25 @@ export interface ObservationRecord {
   project: string;
   text: string | null;
   type: 'decision' | 'bugfix' | 'feature' | 'refactor' | 'discovery' | 'change';
+  title: string | null;
+  subtitle: string | null;
+  facts: string | null;
+  narrative: string | null;
+  concepts: string | null;
+  files_read: string | null;
+  files_modified: string | null;
+  prompt_number: number | null;
+  discovery_tokens: number;
   created_at: string;
   created_at_epoch: number;
-  title?: string;
+  /** @deprecated legacy alias — use concepts */
   concept?: string;
+  /** @deprecated legacy alias — use files_read */
   source_files?: string;
-  prompt_number?: number;
-  discovery_tokens?: number;
 }
 
 /**
- * Session Summary database record
+ * Session Summary database record — matches full post-migration session_summaries table schema
  */
 export interface SessionSummaryRecord {
   id: number;
@@ -88,10 +96,13 @@ export interface SessionSummaryRecord {
   learned: string | null;
   completed: string | null;
   next_steps: string | null;
+  files_read: string | null;
+  files_edited: string | null;
+  notes: string | null;
+  prompt_number: number | null;
+  discovery_tokens: number;
   created_at: string;
   created_at_epoch: number;
-  prompt_number?: number;
-  discovery_tokens?: number;
 }
 
 /**

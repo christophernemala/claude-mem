@@ -181,7 +181,7 @@ export class SessionRoutes extends BaseRouteHandler {
     session.currentProvider = provider;
     session.lastGeneratorActivity = Date.now();
 
-    session.generatorPromise = agent.startSession(session, this.workerService)
+    session.generatorPromise = agent.startSession(session, this.workerService.toWorkerRef())
       .catch(error => {
         // Only log non-abort errors
         if (session.abortController.signal.aborted) return;

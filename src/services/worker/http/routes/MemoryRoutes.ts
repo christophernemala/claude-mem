@@ -69,7 +69,7 @@ export class MemoryRoutes extends BaseRouteHandler {
     });
 
     // 4. Sync to ChromaDB (async, fire-and-forget)
-    chromaSync.syncObservation(
+    chromaSync?.syncObservation(
       result.id,
       memorySessionId,
       targetProject,
