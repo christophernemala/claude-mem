@@ -115,6 +115,7 @@ import { SearchManager } from './worker/SearchManager.js';
 import { FormattingService } from './worker/FormattingService.js';
 import { TimelineService } from './worker/TimelineService.js';
 import { SessionEventBroadcaster } from './worker/events/SessionEventBroadcaster.js';
+import type { WorkerRef } from './worker/agents/types.js';
 
 // HTTP route handlers
 import { ViewerRoutes } from './worker/http/routes/ViewerRoutes.js';
@@ -566,7 +567,7 @@ export class WorkerService {
     // Track generator activity for stale detection (Issue #1099)
     session.lastGeneratorActivity = Date.now();
 
-    session.generatorPromise = agent.startSession(session, this)
+    session.generatorPromise = agent.startSession(session, this.toWorkerRef())
       .catch(async (error: unknown) => {
         const errorMessage = (error as Error)?.message || '';
 
@@ -746,7 +747,7 @@ export class WorkerService {
 
     if (isGeminiAvailable()) {
       try {
-        await this.geminiAgent.startSession(session, this);
+        await this.geminiAgent.startSession(session, this.toWorkerRef());
         return;
       } catch (e) {
         logger.warn('SDK', 'Fallback Gemini failed, trying OpenRouter', {
@@ -758,7 +759,7 @@ export class WorkerService {
 
     if (isOpenRouterAvailable()) {
       try {
-        await this.openRouterAgent.startSession(session, this);
+        await this.openRouterAgent.startSession(session, this.toWorkerRef());
         return;
       } catch (e) {
         logger.warn('SDK', 'Fallback OpenRouter failed', {
@@ -922,6 +923,13 @@ export class WorkerService {
       dbManager: this.dbManager,
       chromaMcpManager: this.chromaMcpManager || undefined
     });
+  }
+
+  toWorkerRef(): WorkerRef {
+    return {
+      sseBroadcaster: this.sseBroadcaster,
+      broadcastProcessingStatus: this.broadcastProcessingStatus.bind(this)
+    };
   }
 
   /**
